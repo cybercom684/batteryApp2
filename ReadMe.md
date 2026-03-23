@@ -1,82 +1,74 @@
 ﻿# batteryApp2
 
-> Nintendo Switch Homebrew Demo — written in C# with [CS2SX](https://github.com/johannesh/cs2sx)
+> Nintendo Switch Homebrew Demo — geschrieben in C# mit [CS2SX](https://github.com/cybercom684/CS2SX)
 
-A fully interactive Switch homebrew app demonstrating the CS2SX transpiler. Write real C# code, get a working `.nro` file.
-
----
-
-## Screenshots
-
-| System Screen | Scores Screen | Names Screen |
-|---|---|---|
-| Live battery % + ProgressBar | Dynamic score list with sum | Player list with Dictionary |
+Eine vollständig interaktive Switch-Homebrew-App als Demonstration des CS2SX-Transpilers. Echten C#-Code schreiben, fertige `.nro`-Datei erhalten.
 
 ---
 
 ## Features
 
-- **3-Screen navigation** — switch with L / R
-- **Live battery display** — real data via libnx PSM service
-- **`List<int>` + `foreach`** — dynamic score list with sum and best calculation
-- **`List<string>`** — player name management
-- **`Dictionary<string, int>`** — name-to-score mapping with `ContainsKey`
-- **`StringBuilder`** — efficient multi-line label output
-- **Buttons with `OnClick`** — interactive UI with focus navigation
-- **`Visible` property** — dynamic show/hide of all controls
-- **String interpolation** — `$"Battery: {battery}%"` → `snprintf` in C
+- **3-Screen-Navigation** — wechseln mit L / R
+- **Live-Batterieanzeige** — echte Daten über libnx PSM Service
+- **`List<int>` + `foreach`** — dynamische Score-Liste mit Summe und Bestwert
+- **`List<string>`** — Spieler-Namensverwaltung
+- **`Dictionary<string, int>`** — Name-zu-Score-Zuordnung mit `ContainsKey`
+- **`StringBuilder`** — effizienter mehrzeiliger Label-Textaufbau
+- **Buttons mit `OnClick`** — interaktive UI mit Fokus-Navigation
+- **`Visible`-Property** — dynamisches Ein- und Ausblenden von Controls
+- **String-Interpolation** — `$"Batterie: {battery}%"` → `snprintf` in C
 
 ---
 
-## Controls
+## Steuerung
 
-| Button | Action |
-|--------|--------|
-| `L` / `R` | Switch between screens |
-| `X` | Add score (Screen 1) / Add player (Screen 2) |
-| `Y` | Reset scores (Screen 1) |
-| `A` | Confirm focused button |
-| `↑` / `↓` | Navigate between buttons |
-| `+` | Exit app |
+| Taste | Aktion |
+|-------|--------|
+| `L` / `R` | Zwischen Screens wechseln |
+| `X` | Score hinzufügen (Screen 1) / Spieler hinzufügen (Screen 2) |
+| `Y` | Scores zurücksetzen (Screen 1) |
+| `A` | Fokussierten Button bestätigen |
+| `↑` / `↓` | Zwischen Buttons navigieren |
+| `+` | App beenden |
 
 ---
 
 ## Build
 
-### Requirements
+### Voraussetzungen
 
-- [devkitPro](https://devkitpro.org/wiki/Getting_Started) with devkitA64 + libnx
-- `DEVKITPRO` environment variable set
+- [devkitPro](https://devkitpro.org/wiki/Getting_Started) mit devkitA64 und libnx
+- Umgebungsvariable `DEVKITPRO` gesetzt
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- CS2SX installed:
+- CS2SX installiert:
 
 ```bash
 dotnet tool install -g cs2sx
 ```
 
-### Build command
+### Build-Befehl
 
 ```bash
 cs2sx build batteryApp2
 ```
 
-Output: `batteryApp2.nro`
+Ausgabe: `batteryApp2.nro`
 
-### Install on Switch
+### Installation auf der Switch
 
-Copy `batteryApp2.nro` to `/switch/` on your SD card and launch via the Homebrew Menu.
+`batteryApp2.nro` in den Ordner `/switch/` auf der SD-Karte kopieren und über das Homebrew-Menü starten.
 
 ---
 
-## Project structure
+## Projektstruktur
 
 ```
 batteryApp2/
-├── Program.cs          ← Main app (C# source)
-├── Counter.cs          ← Helper class
+├── Program.cs          ← Haupt-App (C#-Quellcode)
+├── Counter.cs          ← Hilfsklasse für Zähler
 ├── batteryApp2.csproj
-├── cs2sx.json          ← CS2SX config
-└── cs2sx_out/          ← Auto-generated C code
+├── cs2sx.json          ← CS2SX Konfiguration
+└── cs2sx_out/          ← Automatisch generierter C-Code
     ├── Program.c
     ├── Program.h
     ├── _forward.h
@@ -87,7 +79,7 @@ batteryApp2/
 
 ---
 
-## Code examples
+## Code-Beispiele
 
 ### Dictionary
 
@@ -99,7 +91,7 @@ _nameScores.Add("Alice", 142);
 _nameScores.Add("Bob", 89);
 
 if (_nameScores.ContainsKey("Alice"))
-    sb.AppendLine("Alice: found");
+    sb.AppendLine("Alice: gefunden");
 ```
 
 ### StringBuilder
@@ -116,7 +108,9 @@ foreach (int score in _scores)
 _scoresListLabel.Text = sb.ToString();
 ```
 
-### What CS2SX generates
+### Generierter C-Code
+
+CS2SX transpiliert den C#-Code automatisch zu gültigem C:
 
 ```c
 StringBuilder* sb = StringBuilder_New(512);
@@ -146,12 +140,12 @@ Label_SetText(self->f_scoresListLabel, StringBuilder_ToString(sb));
 
 ---
 
-## About CS2SX
+## Über CS2SX
 
-CS2SX transpiles C# source code to C and compiles it with devkitPro's `aarch64-none-elf-gcc` to produce Nintendo Switch `.nro` homebrew files.
+CS2SX transpiliert C#-Quellcode zu C und kompiliert ihn mit devkitPros `aarch64-none-elf-gcc` zu Nintendo Switch `.nro`-Homebrew-Dateien.
 
-Supported C# features: `List<T>`, `Dictionary<K,V>`, `StringBuilder`, `foreach`, string interpolation, `ref`/`out` parameters, libnx direct calls, and more.
+Unterstützte C#-Features: `List<T>`, `Dictionary<K,V>`, `StringBuilder`, `foreach`, String-Interpolation, `ref`/`out`-Parameter, direkte libnx-Aufrufe und mehr.
 
 ---
 
-*Built with [CS2SX](https://github.com/johannesh/cs2sx)*
+*Erstellt mit [CS2SX](https://github.com/cybercom684/CS2SX)*
