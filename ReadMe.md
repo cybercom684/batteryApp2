@@ -64,6 +64,7 @@ Ausgabe: `batteryApp2.nro`
 
 ```
 batteryApp2/
+├── LibNX/...           ← LibNX-Header und -Bibliotheken (devkitPro) für Intelisense
 ├── Program.cs          ← Haupt-App (C#-Quellcode)
 ├── Counter.cs          ← Hilfsklasse für Zähler
 ├── batteryApp2.csproj
