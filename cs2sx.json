@@ -1,0 +1,7 @@
+{
+    "name": "batteryApp2",
+    "author": "CS2SX",
+	"icon": "Icon.png",
+    "version": "1.0.2",
+    "mainClass": "batteryApp2App"
+}
